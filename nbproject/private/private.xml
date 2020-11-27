@@ -3,7 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
+            <file>file:/D:/Kulia/Semester%205/Java/uts/WarehouseManagement/src/model/produk.java</file>
+            <file>file:/D:/Kulia/Semester%205/Java/uts/WarehouseManagement/src/model/user.java</file>
+            <file>file:/D:/Kulia/Semester%205/Java/uts/WarehouseManagement/src/com/warehousemanajemen/main.java</file>
+            <file>file:/D:/Kulia/Semester%205/Java/uts/WarehouseManagement/src/model/transaksi.java</file>
+            <file>file:/D:/Kulia/Semester%205/Java/uts/WarehouseManagement/src/controller/contProduk.java</file>
+            <file>file:/D:/Kulia/Semester%205/Java/uts/WarehouseManagement/src/controller/contUser.java</file>
+            <file>file:/D:/Kulia/Semester%205/Java/uts/WarehouseManagement/src/database/koneksi.java</file>
+            <file>file:/D:/Kulia/Semester%205/Java/uts/WarehouseManagement/src/controller/contTransaksi.java</file>
+=======
             <file>file:/D:/Tugas/PAJ/com.WarehouseManajemen/src/com/warehousemanajemen/view/Insert.java</file>
+>>>>>>> 009ab79f08c82acbb638409edd069292a72820e6
         </group>
     </open-files>
 </project-private>
