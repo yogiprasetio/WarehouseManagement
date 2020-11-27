@@ -44,4 +44,8 @@ public class contTransaksi {
         return this.arrTransaksi;
     }
     
+    public void insertTransaksi(transaksi trans){
+        
+    }
+    
 }

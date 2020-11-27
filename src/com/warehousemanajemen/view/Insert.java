@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -85,6 +87,7 @@ public class Insert extends JFrame {
             public void actionPerformed(ActionEvent e){  
                 btnUpdateAction(e);
                 btnUpdate1.setEnabled(true);
+                btnsave.setEnabled(false);
         }  
     });
         
@@ -96,6 +99,17 @@ public class Insert extends JFrame {
         btnsave = new JButton("ADD Stock");
         btnsave.setFont(new Font("Arial",Font.BOLD,14));
         btnsave.setBackground(Color.GREEN);
+        btnsave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                CreateData();
+                try {
+                    showTblList();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Insert.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         
         btnCancel = new JButton("Clear");
         btnCancel.setFont(new Font("Arial",Font.BOLD,14));
@@ -103,6 +117,7 @@ public class Insert extends JFrame {
     }
     
     private void btnUpdateAction(ActionEvent e){
+        
 //        String data = (String) this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 0);
         this.jtNmProduk.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 1).toString());
         this.jtKtgrProduk.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 2).toString());
@@ -110,6 +125,10 @@ public class Insert extends JFrame {
         this.jtDateIn.setEditable(false);
         this.jtDateOut.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 4).toString());
 //        this.lblNmUser.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 5).toString());
+        
+    }
+    
+    private void CreateData() {
         
     }
     
