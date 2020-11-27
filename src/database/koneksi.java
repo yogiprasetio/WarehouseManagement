@@ -18,14 +18,15 @@ import java.sql.Statement;
 public class koneksi {
     private Connection connect;
     private Statement db;
-    private String database = "gudang";
+    private String database = "stock";
     
     public koneksi(){
+        System.out.println("Masuk");
         try{
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("Class Driver ditemukan");
             try{
-                connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/userTesting", "root", "");
+                connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/stock", "root", "");
                 System.out.println("Koneksi Database sukses");
             }
             catch (SQLException se){

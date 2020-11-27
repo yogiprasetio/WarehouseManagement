@@ -13,10 +13,11 @@ import java.util.Date;
  */
 public class transaksi {
     private int id;
+    private String produk;
+    private String kategori;
     private Date tgl_masuk;
     private Date tgl_keluar;
     private int jumlah;
-    private int produk;
     private int user;
 
     public int getId() {
@@ -25,6 +26,14 @@ public class transaksi {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getKategori() {
+        return kategori;
+    }
+
+    public void setKategori(String kategori) {
+        this.kategori = kategori;
     }
 
     public Date getTgl_masuk() {
@@ -51,11 +60,11 @@ public class transaksi {
         this.jumlah = jumlah;
     }
 
-    public int getProduk() {
+    public String getProduk() {
         return produk;
     }
 
-    public void setProduk(int produk) {
+    public void setProduk(String produk) {
         this.produk = produk;
     }
 

@@ -1,18 +1,24 @@
 package com.warehousemanajemen.view;
 
+import controller.*;
+import model.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-
 public class Insert extends JFrame {
-    private JLabel lblJdl, lblJdl1, lblNmProduk,lblKtgrProduk, lblNmUser, lblDateIn,lblDateOut,lblJml, jlblNmUser ;
-    private JTextField jtNmProduk,jtKtgrProduk, jtDateIn,jtDateOut,jtJml ;
+
+    private JLabel lblJdl, lblJdl1, lblNmProduk, lblKtgrProduk, lblNmUser, lblDateIn, lblDateOut, lblJml, jlblNmUser;
+    private JTextField jtNmProduk, jtKtgrProduk, jtDateIn, jtDateOut, jtJml;
     private JButton btnsave, btnCancel, btnTopMn, btnUpdate, btnDelete;
     private JTable tbllIST;
     private String s;
@@ -23,12 +29,13 @@ public class Insert extends JFrame {
     JPanel pane4;
     JPanel pane5;
     JPanel pane6;
-    private static Object[] col = {"Id Produk","Nama Produk","Kategori","date In","Date Out","PIC"};
+    private static Object[] col = {"Id Produk", "Nama Produk", "Kategori", "jumlah", "date In", "Date Out", "PIC"};
     private static Object[][] row = {};
     private JTableHeader header = new JTableHeader();
-    
-    
-    public Insert(){
+    contTransaksi transaksi;
+
+    public Insert() throws SQLException {
+        this.transaksi = new contTransaksi();
         showBtnSave();
         showForm();
         showTblList();
@@ -37,7 +44,7 @@ public class Insert extends JFrame {
         showPane4();
         showPane5();
         showPane6();
-        
+
         pane1 = new JPanel();
         pane1.setLayout(new BorderLayout());
         pane1.add(pane2, BorderLayout.SOUTH);
@@ -45,26 +52,31 @@ public class Insert extends JFrame {
         pane1.add(pane4, BorderLayout.CENTER);
         pane1.add(pane5, BorderLayout.EAST);
         pane1.add(pane6, BorderLayout.NORTH);
-        
+
         add(pane1);
         setTitle("My Admin");
-        setSize(1150,720);
+        setSize(1150, 720);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
-    
-    private void showBtnSave(){
+
+    private void showBtnSave() {
         btnTopMn = new JButton("List Barang");
-        btnTopMn.setFont(new Font("Arial",Font.BOLD,14));
+        btnTopMn.setFont(new Font("Arial", Font.BOLD, 14));
         btnTopMn.setBackground(Color.cyan);
         btnTopMn.setBounds(0, 0, 40, 5);
-        
+
         btnUpdate = new JButton("Update list Barang");
-        btnUpdate.setFont(new Font("Arial",Font.BOLD,14));
+        btnUpdate.setFont(new Font("Arial", Font.BOLD, 14));
         btnUpdate.setBackground(Color.cyan);
         btnUpdate.setBounds(0, 0, 50, 10);
+        btnUpdate.addActionListener(new ActionListener(){  
+            public void actionPerformed(ActionEvent e){  
+                btnUpdateAction(e);
+        }  
+    }); 
         
         btnDelete = new JButton("Delete List Barang");
         btnDelete.setFont(new Font("Arial",Font.BOLD,14));
@@ -78,6 +90,17 @@ public class Insert extends JFrame {
         btnCancel = new JButton("Clear");
         btnCancel.setFont(new Font("Arial",Font.BOLD,14));
         btnCancel.setBackground(Color.red);
+    }
+    
+    private void btnUpdateAction(ActionEvent e){
+//        String data = (String) this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 0);
+        this.jtNmProduk.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 1).toString());
+        this.jtKtgrProduk.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 2).toString());
+        this.jtJml.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 3).toString());
+        this.jtDateIn.setEditable(false);
+        this.jtDateOut.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 4).toString());
+//        this.lblNmUser.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 5).toString());
+        
     }
     
     private void showForm(){
@@ -113,12 +136,35 @@ public class Insert extends JFrame {
         jtJml= new JTextField(20);
     }
     
-    private void showTblList(){
+    private void showTblList() throws SQLException{
         DefaultTableModel table = new DefaultTableModel(row,col);
-        for (int i=0; i<100;i++)
-        {
-            table.addRow(new Object[]{"97742016","apasaja","loremIpsum","12/12/2020","$/$/$","Yosua"});
+        table.setRowCount(0);
+        System.out.println("show");
+        for ( transaksi tr : this.transaksi.getTransaksi()) {
+            String id = String.valueOf(tr.getId());
+            String jumlah = String.valueOf(tr.getJumlah());
+            String user = String.valueOf(tr.getUser());
+            String tgl_masuk;
+            if(tr.getTgl_masuk() == null){
+                tgl_masuk = "-";
+            }
+            else{
+                tgl_masuk = new SimpleDateFormat("dd/MM/yyyy").format(tr.getTgl_masuk());
+            }
+            
+            String tgl_keluar;
+            if(tr.getTgl_keluar() == null){
+                tgl_keluar = "-";
+            }
+            else{
+                tgl_keluar = new SimpleDateFormat("dd/MM/yyyy").format(tr.getTgl_keluar());
+            }
+            table.addRow(new String[]{id, tr.getProduk(), tr.getKategori(), jumlah, tgl_masuk, tgl_keluar, user});
         }
+//        for (int i=0; i<100;i++)
+//        {
+//            table.addRow(new Object[]{"97742016","apasaja","loremIpsum","12/12/2020","$/$/$","Yosua"});
+//        }
         tbllIST = new JTable(table);
         header = tbllIST.getTableHeader();
         header.setBackground(Color.YELLOW);
@@ -209,6 +255,8 @@ public class Insert extends JFrame {
     }
     
 }
+
+  
 //
 //layout.putConstraint(SpringLayout.WEST, lblNmProduk, 5, SpringLayout.WEST, pane2);
 //        layout.putConstraint(SpringLayout.NORTH, lblNmProduk, 5, SpringLayout.NORTH, pane2);

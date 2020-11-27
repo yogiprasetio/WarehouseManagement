@@ -22,18 +22,22 @@ public class contTransaksi {
     public contTransaksi() {
         this.koneksi = new koneksi();
         this.arrTransaksi = new ArrayList<>();
+        System.out.println("SELECT * FROM transaksi");
     }
     
     public ArrayList<transaksi> getTransaksi() throws SQLException{
         this.arrTransaksi.clear();
+        System.out.println("SELECT * FROM transaksi");
         ResultSet rs = this.koneksi.GetData("SELECT * FROM transaksi");
+        System.out.println("SELECT * FROM transaksi");
         while(rs.next()){
             transaksi arrTransaksi = new transaksi();
             arrTransaksi.setId(rs.getInt("Id"));
+            arrTransaksi.setProduk(rs.getString("produk"));
+            arrTransaksi.setKategori(rs.getString("kategori"));
             arrTransaksi.setTgl_masuk(rs.getDate("tgl_masuk"));
             arrTransaksi.setTgl_keluar(rs.getDate("tgl_keluar"));
             arrTransaksi.setJumlah(rs.getInt("jumlah"));
-            arrTransaksi.setProduk(rs.getInt("id_produk"));
             arrTransaksi.setUser(rs.getInt("id_user"));
             this.arrTransaksi.add(arrTransaksi);
         }
