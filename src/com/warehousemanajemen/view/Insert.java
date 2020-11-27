@@ -61,19 +61,15 @@ public class Insert extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
-<<<<<<< HEAD
     
     private void showBtnSave(){
         btnTopMn = new JButton("Log Out");
         btnTopMn.setFont(new Font("Arial",Font.BOLD,14));
         btnTopMn.setBackground(Color.RED);
-=======
-
-    private void showBtnSave() {
+    
         btnTopMn = new JButton("List Barang");
         btnTopMn.setFont(new Font("Arial", Font.BOLD, 14));
         btnTopMn.setBackground(Color.cyan);
->>>>>>> 536f2b584a93a5e85a1e584f261886c497304f1a
         btnTopMn.setBounds(0, 0, 40, 5);
 
         btnUpdate = new JButton("Update list Barang");
