@@ -19,7 +19,7 @@ public class Insert extends JFrame {
 
     private JLabel lblJdl, lblJdl1, lblNmProduk, lblKtgrProduk, lblNmUser, lblDateIn, lblDateOut, lblJml, jlblNmUser;
     private JTextField jtNmProduk, jtKtgrProduk, jtDateIn, jtDateOut, jtJml;
-    private JButton btnsave, btnCancel, btnTopMn, btnUpdate, btnDelete;
+    private JButton btnsave, btnCancel, btnTopMn, btnUpdate, btnDelete, btnUpdate1;
     private JTable tbllIST;
     private String s;
     private int a;
@@ -67,11 +67,16 @@ public class Insert extends JFrame {
         btnTopMn.setFont(new Font("Arial",Font.BOLD,14));
         btnTopMn.setBackground(Color.RED);
     
-        btnTopMn = new JButton("List Barang");
+        btnTopMn = new JButton("Log Out");
         btnTopMn.setFont(new Font("Arial", Font.BOLD, 14));
         btnTopMn.setBackground(Color.cyan);
         btnTopMn.setBounds(0, 0, 40, 5);
 
+        btnUpdate1 = new JButton("Update");
+        btnUpdate1.setFont(new Font("Arial", Font.BOLD, 14));
+        btnUpdate1.setBackground(Color.cyan);
+        btnUpdate1.setEnabled(false);
+        
         btnUpdate = new JButton("Update list Barang");
         btnUpdate.setFont(new Font("Arial", Font.BOLD, 14));
         btnUpdate.setBackground(Color.cyan);
@@ -79,8 +84,9 @@ public class Insert extends JFrame {
         btnUpdate.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){  
                 btnUpdateAction(e);
+                btnUpdate1.setEnabled(true);
         }  
-    }); 
+    });
         
         btnDelete = new JButton("Delete List Barang");
         btnDelete.setFont(new Font("Arial",Font.BOLD,14));
@@ -207,7 +213,8 @@ public class Insert extends JFrame {
                 .addComponent(jtDateIn)
                 .addComponent(jtDateOut)
                 .addComponent(jlblNmUser, GroupLayout.Alignment.LEADING)
-                .addComponent(btnsave,GroupLayout.Alignment.LEADING))
+                .addComponent(btnsave,GroupLayout.Alignment.LEADING)
+                .addComponent(btnUpdate1,GroupLayout.Alignment.TRAILING))
         );
         layout.setVerticalGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -230,7 +237,8 @@ public class Insert extends JFrame {
                 .addComponent(jlblNmUser))
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(btnCancel)
-                .addComponent(btnsave))
+                .addComponent(btnsave)
+                .addComponent(btnUpdate1))
         );    
     }
 
