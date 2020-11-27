@@ -17,7 +17,12 @@ public class Insert extends JFrame {
     private JTable tbllIST;
     private String s;
     private int a;
-    private JPanel pane1,pane2,pane3,pane4,pane5,pane6;
+    JPanel pane1;
+    JPanel pane2;
+    JPanel pane3;
+    JPanel pane4;
+    JPanel pane5;
+    JPanel pane6;
     private static Object[] col = {"Id Produk","Nama Produk","Kategori","date In","Date Out","PIC"};
     private static Object[][] row = {};
     private JTableHeader header = new JTableHeader();
@@ -27,71 +32,11 @@ public class Insert extends JFrame {
         showBtnSave();
         showForm();
         showTblList();
-        
-        pane3 = new JPanel();
-        GroupLayout layout = new GroupLayout(pane3);          
-        pane3.setLayout(layout);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-        layout.setHorizontalGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addComponent(lblNmProduk)
-                .addComponent(lblKtgrProduk)
-                .addComponent(lblJml)
-                .addComponent(lblDateIn)
-                .addComponent(lblDateOut)
-                .addComponent(lblNmUser))
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                .addComponent(jtNmProduk)
-                .addComponent(jtKtgrProduk)
-                .addComponent(jtJml)
-                .addComponent(jtDateIn)
-                .addComponent(jtDateOut)
-                .addComponent(jlblNmUser, GroupLayout.Alignment.LEADING))
-        );
-        layout.setVerticalGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(lblNmProduk)
-                .addComponent(jtNmProduk))
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(lblKtgrProduk)
-                .addComponent(jtKtgrProduk))
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(lblJml)
-                .addComponent(jtJml))
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(lblDateIn)
-                .addComponent(jtDateIn))
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(lblDateOut)
-                .addComponent(jtDateOut))
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(lblNmUser)
-                .addComponent(jlblNmUser))
-        );
-        
-        
-        
-        pane4 = new JPanel();
-        JScrollPane s =  new JScrollPane(tbllIST);
-        pane4.add(header);
-        pane4.add(tbllIST);
-        pane4.add(s);
-        
-        pane2 = new JPanel();
-        pane2.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        pane2.add(btnCancel);
-        pane2.add(btnsave);
-        
-        pane5 = new JPanel();
-        pane5.setLayout(new GridLayout(12, 1, 10, 5));
-        pane5.add(btnTopMn);
-        pane5.add(btnUpdate);
-        pane5.add(btnDelete);
-        
-        pane6 = new JPanel();
-        pane6.add(lblJdl);
-        pane6.add(lblJdl1);
+        showPane2();
+        showPane3();
+        showPane4();
+        showPane5();
+        showPane6();
         
         pane1 = new JPanel();
         pane1.setLayout(new BorderLayout());
@@ -188,6 +133,79 @@ public class Insert extends JFrame {
         tbllIST.getColumnModel().getColumn(5).setPreferredWidth(100);
         tbllIST.setCellEditor(null);
         tbllIST.setBounds(0,0,500,620);
+    }
+
+    private void showPane3() {
+    pane3 = new JPanel();
+        GroupLayout layout = new GroupLayout(pane3);          
+        pane3.setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        layout.setHorizontalGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addComponent(lblNmProduk)
+                .addComponent(lblKtgrProduk)
+                .addComponent(lblJml)
+                .addComponent(lblDateIn)
+                .addComponent(lblDateOut)
+                .addComponent(lblNmUser))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                .addComponent(jtNmProduk)
+                .addComponent(jtKtgrProduk)
+                .addComponent(jtJml)
+                .addComponent(jtDateIn)
+                .addComponent(jtDateOut)
+                .addComponent(jlblNmUser, GroupLayout.Alignment.LEADING))
+        );
+        layout.setVerticalGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblNmProduk)
+                .addComponent(jtNmProduk))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblKtgrProduk)
+                .addComponent(jtKtgrProduk))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblJml)
+                .addComponent(jtJml))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblDateIn)
+                .addComponent(jtDateIn))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblDateOut)
+                .addComponent(jtDateOut))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblNmUser)
+                .addComponent(jlblNmUser))
+        );    
+    }
+
+    private void showPane4() {
+        pane4 = new JPanel();
+        pane4.add(header);
+        pane4.add(tbllIST);
+    }
+
+    private void showPane5() {
+        pane5 = new JPanel();
+        pane5.setLayout(new GridLayout(12, 1, 10, 5));
+        pane5.add(btnTopMn);
+        pane5.add(btnUpdate);
+        pane5.add(btnDelete);    
+    
+    }
+
+    private void showPane2() {
+        pane2 = new JPanel();
+        pane2.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        pane2.add(btnCancel);
+        pane2.add(btnsave);    
+    }
+
+    private void showPane6() {
+        pane6 = new JPanel();
+        pane6.add(lblJdl);
+        pane6.add(lblJdl1);
+        
     }
     
 }
