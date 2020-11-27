@@ -56,9 +56,9 @@ public class Insert extends JFrame {
     }
     
     private void showBtnSave(){
-        btnTopMn = new JButton("List Barang");
+        btnTopMn = new JButton("Log Out");
         btnTopMn.setFont(new Font("Arial",Font.BOLD,14));
-        btnTopMn.setBackground(Color.cyan);
+        btnTopMn.setBackground(Color.RED);
         btnTopMn.setBounds(0, 0, 40, 5);
         
         btnUpdate = new JButton("Update list Barang");
@@ -71,7 +71,7 @@ public class Insert extends JFrame {
         btnDelete.setBackground(Color.cyan);
         btnDelete.setBounds(0, 0, 40, 5);
         
-        btnsave = new JButton("Save");
+        btnsave = new JButton("ADD Stock");
         btnsave.setFont(new Font("Arial",Font.BOLD,14));
         btnsave.setBackground(Color.GREEN);
         
@@ -136,7 +136,7 @@ public class Insert extends JFrame {
     }
 
     private void showPane3() {
-    pane3 = new JPanel();
+        pane3 = new JPanel();
         GroupLayout layout = new GroupLayout(pane3);          
         pane3.setLayout(layout);
         layout.setAutoCreateGaps(true);
@@ -148,14 +148,16 @@ public class Insert extends JFrame {
                 .addComponent(lblJml)
                 .addComponent(lblDateIn)
                 .addComponent(lblDateOut)
-                .addComponent(lblNmUser))
+                .addComponent(lblNmUser)
+                .addComponent(btnCancel))
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                 .addComponent(jtNmProduk)
                 .addComponent(jtKtgrProduk)
                 .addComponent(jtJml)
                 .addComponent(jtDateIn)
                 .addComponent(jtDateOut)
-                .addComponent(jlblNmUser, GroupLayout.Alignment.LEADING))
+                .addComponent(jlblNmUser, GroupLayout.Alignment.LEADING)
+                .addComponent(btnsave,GroupLayout.Alignment.LEADING))
         );
         layout.setVerticalGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -176,6 +178,9 @@ public class Insert extends JFrame {
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(lblNmUser)
                 .addComponent(jlblNmUser))
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(btnCancel)
+                .addComponent(btnsave))
         );    
     }
 
@@ -188,7 +193,6 @@ public class Insert extends JFrame {
     private void showPane5() {
         pane5 = new JPanel();
         pane5.setLayout(new GridLayout(12, 1, 10, 5));
-        pane5.add(btnTopMn);
         pane5.add(btnUpdate);
         pane5.add(btnDelete);    
     
@@ -197,8 +201,8 @@ public class Insert extends JFrame {
     private void showPane2() {
         pane2 = new JPanel();
         pane2.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        pane2.add(btnCancel);
-        pane2.add(btnsave);    
+        pane2.add(btnTopMn);
+           
     }
 
     private void showPane6() {
