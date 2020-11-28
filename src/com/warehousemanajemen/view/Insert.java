@@ -4,16 +4,19 @@ import controller.*;
 import model.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -57,7 +60,7 @@ public class Insert extends JFrame {
 
         add(pane1);
         setTitle("My Admin");
-        setSize(1150, 720);
+        setSize(1350, 720);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,16 +81,28 @@ public class Insert extends JFrame {
         btnUpdate1.setFont(new Font("Arial", Font.BOLD, 14));
         btnUpdate1.setBackground(Color.cyan);
         btnUpdate1.setEnabled(false);
+        btnUpdate1.addActionListener(new ActionListener(){  
+            public void actionPerformed(ActionEvent e){  
+                btnUpdateAction(e);
+                btnUpdate1.setEnabled(false);
+                btnsave.setEnabled(true);
+                btnUpdate.setEnabled(true);
+                jtDateIn.setEditable(true);
+                JOptionPane.showMessageDialog(null, "Update Succesfully !");
+        }  
+    });
         
         btnUpdate = new JButton("Update list Barang");
         btnUpdate.setFont(new Font("Arial", Font.BOLD, 14));
         btnUpdate.setBackground(Color.cyan);
         btnUpdate.setBounds(0, 0, 50, 10);
+        btnUpdate.setVisible(false);
         btnUpdate.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){  
                 btnUpdateAction(e);
                 btnUpdate1.setEnabled(true);
                 btnsave.setEnabled(false);
+                btnUpdate.setEnabled(false);
         }  
     });
         
@@ -95,18 +110,30 @@ public class Insert extends JFrame {
         btnDelete.setFont(new Font("Arial",Font.BOLD,14));
         btnDelete.setBackground(Color.cyan);
         btnDelete.setBounds(0, 0, 40, 5);
+        btnDelete.setVisible(false);
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Data has been DELETED !");
+                btnDelete.setVisible(false);
+            }
+        });
         
         btnsave = new JButton("ADD Stock");
         btnsave.setFont(new Font("Arial",Font.BOLD,14));
         btnsave.setBackground(Color.GREEN);
+        btnsave.setEnabled(true);
         btnsave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 CreateData();
+                /*showTblList();*/
                 try {
+                    JOptionPane.showMessageDialog(null, "Data has been saved !");
                     showTblList();
                 } catch (SQLException ex) {
                     Logger.getLogger(Insert.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "Data failed to save !");
                 }
             }
         });
@@ -114,6 +141,17 @@ public class Insert extends JFrame {
         btnCancel = new JButton("Clear");
         btnCancel.setFont(new Font("Arial",Font.BOLD,14));
         btnCancel.setBackground(Color.red);
+        btnCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               jtNmProduk.setText("");
+                jtKtgrProduk.setText("");
+                jtDateIn.setText("");
+                jtDateOut.setText("");
+                jtJml.setText("");
+                
+            }
+        });
     }
     
     private void btnUpdateAction(ActionEvent e){
@@ -165,7 +203,7 @@ public class Insert extends JFrame {
         jtJml= new JTextField(20);
     }
     
-    private void showTblList() throws SQLException{
+    private void showTblList() /*throws SQLException*/{
         DefaultTableModel table = new DefaultTableModel(row,col);
         table.setRowCount(0);
         System.out.println("show");
@@ -206,6 +244,15 @@ public class Insert extends JFrame {
         tbllIST.getColumnModel().getColumn(3).setPreferredWidth(75);
         tbllIST.getColumnModel().getColumn(4).setPreferredWidth(75);
         tbllIST.getColumnModel().getColumn(5).setPreferredWidth(100);
+        tbllIST.addMouseListener(new MouseInputAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JOptionPane.showMessageDialog(null, "Choose you're action for UPDATE or DELETE this data ...");
+                btnUpdate.setVisible(true);
+                btnDelete.setVisible(true);
+            }
+            
+        });
         tbllIST.setCellEditor(null);
         tbllIST.setBounds(0,0,500,620);
     }
