@@ -1,4 +1,4 @@
-package com.warehousemanajemen.view;
+package warehousemanajemen.view;
 
 import controller.*;
 import model.*;
@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -41,9 +42,9 @@ public class Insert extends JFrame {
 
     public Insert() throws SQLException {
         this.transaksi = new contTransaksi();
+        this.showTblList();
         showBtnSave();
         showForm();
-        showTblList();
         showPane2();
         showPane3();
         showPane4();
@@ -67,6 +68,56 @@ public class Insert extends JFrame {
         setVisible(true);
     }
     
+    public void showTblList() throws SQLException{
+        DefaultTableModel table = new DefaultTableModel(row,col);
+        table.setRowCount(0);
+        System.out.println("show");
+        for ( transaksi tr : this.transaksi.getTransaksi()) {
+            String id = String.valueOf(tr.getId());
+            String jumlah = String.valueOf(tr.getJumlah());
+            String user = String.valueOf(tr.getUser());
+            String tgl_masuk;
+            if(tr.getTgl_masuk() == null){
+                tgl_masuk = "-";
+            }
+            else{
+                tgl_masuk = new SimpleDateFormat("dd/MM/yyyy").format(tr.getTgl_masuk());
+            }
+            
+            String tgl_keluar;
+            if(tr.getTgl_keluar() == null){
+                tgl_keluar = "-";
+            }
+            else{
+                tgl_keluar = new SimpleDateFormat("dd/MM/yyyy").format(tr.getTgl_keluar());
+            }
+            table.addRow(new String[]{id, tr.getProduk(), tr.getKategori(), jumlah, tgl_masuk, tgl_keluar, user});
+        }
+        tbllIST = new JTable(table);
+        header = tbllIST.getTableHeader();
+        header.setBackground(Color.YELLOW);
+        header.setBounds(20, 10, 760, 20);
+        tbllIST.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tbllIST.setBackground(Color.lightGray);
+        tbllIST.getColumnModel().getColumn(0).setPreferredWidth(70);
+        tbllIST.getColumnModel().getColumn(1).setPreferredWidth(200);
+        tbllIST.getColumnModel().getColumn(2).setPreferredWidth(80);
+        tbllIST.getColumnModel().getColumn(3).setPreferredWidth(75);
+        tbllIST.getColumnModel().getColumn(4).setPreferredWidth(75);
+        tbllIST.getColumnModel().getColumn(5).setPreferredWidth(100);
+        tbllIST.addMouseListener(new MouseInputAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JOptionPane.showMessageDialog(null, "Choose you're action for UPDATE or DELETE this data ...");
+                btnUpdate.setVisible(true);
+                btnDelete.setVisible(true);
+            }
+            
+        });
+        tbllIST.setCellEditor(null);
+        tbllIST.setBounds(0,0,500,620);
+    }
+    
     private void showBtnSave(){
         btnTopMn = new JButton("Log Out");
         btnTopMn.setFont(new Font("Arial",Font.BOLD,14));
@@ -83,14 +134,24 @@ public class Insert extends JFrame {
         btnUpdate1.setEnabled(false);
         btnUpdate1.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){  
-                btnUpdateAction(e);
+                try {
+                    btnUpdateAction(e);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Insert.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 btnUpdate1.setEnabled(false);
                 btnsave.setEnabled(true);
                 btnUpdate.setEnabled(true);
                 jtDateIn.setEditable(true);
                 JOptionPane.showMessageDialog(null, "Update Succesfully !");
+                try {
+                    showTblList();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Insert.class.getName()).log(Level.SEVERE, null, ex);
+                }
         }  
     });
+        
         
         btnUpdate = new JButton("Update list Barang");
         btnUpdate.setFont(new Font("Arial", Font.BOLD, 14));
@@ -99,7 +160,8 @@ public class Insert extends JFrame {
         btnUpdate.setVisible(false);
         btnUpdate.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){  
-                btnUpdateAction(e);
+                btnSetUpdateAction(e);
+                jtDateOut.setEnabled(true);
                 btnUpdate1.setEnabled(true);
                 btnsave.setEnabled(false);
                 btnUpdate.setEnabled(false);
@@ -114,8 +176,14 @@ public class Insert extends JFrame {
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    btnDeleteAction(e);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Insert.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 JOptionPane.showMessageDialog(null, "Data has been DELETED !");
                 btnDelete.setVisible(false);
+                
             }
         });
         
@@ -126,11 +194,9 @@ public class Insert extends JFrame {
         btnsave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                CreateData();
-                /*showTblList();*/
                 try {
-                    JOptionPane.showMessageDialog(null, "Data has been saved !");
-                    showTblList();
+                    CreateData(ae);
+//                    showTblList();
                 } catch (SQLException ex) {
                     Logger.getLogger(Insert.class.getName()).log(Level.SEVERE, null, ex);
                     JOptionPane.showMessageDialog(null, "Data failed to save !");
@@ -149,24 +215,64 @@ public class Insert extends JFrame {
                 jtDateIn.setText("");
                 jtDateOut.setText("");
                 jtJml.setText("");
+                btnUpdate.setEnabled(true);
                 
             }
+            
         });
     }
     
-    private void btnUpdateAction(ActionEvent e){
+    private void btnSetUpdateAction(ActionEvent e){
         
 //        String data = (String) this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 0);
         this.jtNmProduk.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 1).toString());
         this.jtKtgrProduk.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 2).toString());
         this.jtJml.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 3).toString());
         this.jtDateIn.setEditable(false);
-        this.jtDateOut.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 4).toString());
+        this.jtDateOut.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 5).toString());
 //        this.lblNmUser.setText(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 5).toString());
+
         
     }
     
-    private void CreateData() {
+    private void btnUpdateAction(ActionEvent e) throws SQLException {
+                transaksi trans = new transaksi();
+                trans.setId(Integer.parseInt(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 0).toString()));
+                trans.setProduk(this.jtNmProduk.getText());
+                trans.setKategori(this.jtKtgrProduk.getText());
+                trans.setJumlah(Integer.parseInt(this.jtJml.getText()));
+//                trans.setTgl_masuk(new Date((String) this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 4)));
+                System.out.println("tgl_keluar : " + this.jtDateOut.getText());
+                trans.setTgl_keluar(new Date(this.jtDateOut.getText()));
+                System.out.println("tgl_keluar1 : " + trans.getTgl_keluar());
+                this.transaksi.updateTransaksi(trans);
+                this.showTblList();
+            }
+    
+    private void btnDeleteAction(ActionEvent e) throws SQLException{
+        this.transaksi.deleteTransaksi(Integer.parseInt(this.tbllIST.getValueAt(this.tbllIST.getSelectedRow(), 0).toString()));
+        this.showTblList();
+    }
+    
+    private void CreateData(ActionEvent e) throws SQLException {
+        transaksi tr = new transaksi();
+        try {
+            tr.setProduk(this.jtNmProduk.getText());
+            tr.setKategori(this.jtKtgrProduk.getText());
+            tr.setJumlah(Integer.parseInt(this.jtJml.getText()));
+//            String tgl = new SimpleDateFormat("yyyy-MM-dd").format(this.jtDateIn.getText());
+            Date tgl = new Date(this.jtDateIn.getText());
+            System.out.println("tgl : " + this.jtDateIn.getText() + "Jadi : " + tgl);
+            tr.setTgl_masuk(new Date(this.jtDateIn.getText()));
+//            tr.setTgl_keluar(new Date(this.jtDateOut.getText()));
+            System.out.println("tgl Masuk : " + tr.getTgl_masuk());
+            this.transaksi.insertTransaksi(tr);
+            this.showTblList();
+        } catch (Exception err) {
+            System.out.println("Error : " + err);
+            this.showTblList();
+        }
+        this.showTblList();
         
     }
     
@@ -200,62 +306,11 @@ public class Insert extends JFrame {
         jtKtgrProduk= new JTextField(20);
         jtDateIn= new JTextField(20);
         jtDateOut= new JTextField(20);
+        jtDateOut.setEnabled(false);
         jtJml= new JTextField(20);
     }
     
-    private void showTblList() /*throws SQLException*/{
-        DefaultTableModel table = new DefaultTableModel(row,col);
-        table.setRowCount(0);
-        System.out.println("show");
-        for ( transaksi tr : this.transaksi.getTransaksi()) {
-            String id = String.valueOf(tr.getId());
-            String jumlah = String.valueOf(tr.getJumlah());
-            String user = String.valueOf(tr.getUser());
-            String tgl_masuk;
-            if(tr.getTgl_masuk() == null){
-                tgl_masuk = "-";
-            }
-            else{
-                tgl_masuk = new SimpleDateFormat("dd/MM/yyyy").format(tr.getTgl_masuk());
-            }
-            
-            String tgl_keluar;
-            if(tr.getTgl_keluar() == null){
-                tgl_keluar = "-";
-            }
-            else{
-                tgl_keluar = new SimpleDateFormat("dd/MM/yyyy").format(tr.getTgl_keluar());
-            }
-            table.addRow(new String[]{id, tr.getProduk(), tr.getKategori(), jumlah, tgl_masuk, tgl_keluar, user});
-        }
-//        for (int i=0; i<100;i++)
-//        {
-//            table.addRow(new Object[]{"97742016","apasaja","loremIpsum","12/12/2020","$/$/$","Yosua"});
-//        }
-        tbllIST = new JTable(table);
-        header = tbllIST.getTableHeader();
-        header.setBackground(Color.YELLOW);
-        header.setBounds(20, 10, 760, 20);
-        tbllIST.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        tbllIST.setBackground(Color.lightGray);
-        tbllIST.getColumnModel().getColumn(0).setPreferredWidth(70);
-        tbllIST.getColumnModel().getColumn(1).setPreferredWidth(200);
-        tbllIST.getColumnModel().getColumn(2).setPreferredWidth(80);
-        tbllIST.getColumnModel().getColumn(3).setPreferredWidth(75);
-        tbllIST.getColumnModel().getColumn(4).setPreferredWidth(75);
-        tbllIST.getColumnModel().getColumn(5).setPreferredWidth(100);
-        tbllIST.addMouseListener(new MouseInputAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "Choose you're action for UPDATE or DELETE this data ...");
-                btnUpdate.setVisible(true);
-                btnDelete.setVisible(true);
-            }
-            
-        });
-        tbllIST.setCellEditor(null);
-        tbllIST.setBounds(0,0,500,620);
-    }
+    
 
     private void showPane3() {
         pane3 = new JPanel();

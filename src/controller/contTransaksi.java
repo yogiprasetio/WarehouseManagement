@@ -8,6 +8,9 @@ package controller;
 import database.koneksi;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import model.transaksi;
 
@@ -27,9 +30,7 @@ public class contTransaksi {
     
     public ArrayList<transaksi> getTransaksi() throws SQLException{
         this.arrTransaksi.clear();
-        System.out.println("SELECT * FROM transaksi");
         ResultSet rs = this.koneksi.GetData("SELECT * FROM transaksi");
-        System.out.println("SELECT * FROM transaksi");
         while(rs.next()){
             transaksi arrTransaksi = new transaksi();
             arrTransaksi.setId(rs.getInt("Id"));
@@ -45,7 +46,30 @@ public class contTransaksi {
     }
     
     public void insertTransaksi(transaksi trans){
+        if (trans.getTgl_keluar() == null) {
+            String tgl_keluar = "NULL";
+        }
+        else{
+            String tgl_keluar = new SimpleDateFormat("yyyy-MM-dd").format(trans.getTgl_keluar());
+        }
         
+        int id = trans.getId() + 1;
+        System.out.println("sebelum format : " + trans.getTgl_masuk());
+        String formated = new SimpleDateFormat("yyyy-MM-dd").format(trans.getTgl_masuk());
+        System.out.println("Setelah format : " + formated);
+        this.koneksi.ManipulasiData("INSERT INTO transaksi (id, produk, kategori, jumlah, tgl_masuk, tgl_keluar, id_user) VALUES (NULL, '" + trans.getProduk() + "', '" + trans.getKategori() + "', '" +  trans.getJumlah() + "', '" + formated + "', NULL, '" + id + "')");
+        System.out.println("INSERT INTO transaksi (`id`, `produk`, `kategori`, `jumlah`, `tgl_masuk`, `tgl_keluar`, `id_user`) VALUES (NULL, '" + trans.getProduk() + "', '" + trans.getKategori() + "', '" +  trans.getJumlah() + "', '" + formated + "', NULL, '" + id + "')");
+    }
+    
+    public void updateTransaksi(transaksi trans){
+        String tgl_keluar = new SimpleDateFormat("yyyy-MM-dd").format(trans.getTgl_keluar());
+        System.out.println("Update");
+        this.koneksi.ManipulasiData("UPDATE `transaksi` SET `produk` = '" + trans.getProduk() + "', `kategori` = '" + trans.getKategori() + "', `jumlah` = '" + trans.getJumlah() + "', `tgl_keluar` = '" + tgl_keluar + "' WHERE `transaksi`.`id` = " + trans.getId());
+        System.out.println("UPDATE `transaksi` SET `produk` = '" + trans.getProduk() + "', `kategori` = '" + trans.getKategori() + "', `jumlah` = '" + trans.getJumlah() + "', `tgl_keluar` = '" + tgl_keluar + "' WHERE `transaksi`.`id` = " + trans.getId());
+    }
+    
+    public void deleteTransaksi(int id){
+        this.koneksi.ManipulasiData("DELETE FROM `transaksi` WHERE `transaksi`.`id` = " + id);
     }
     
 }

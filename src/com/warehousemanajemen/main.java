@@ -1,6 +1,6 @@
 package com.warehousemanajemen;
 
-import com.warehousemanajemen.view.Insert;
+import warehousemanajemen.view.Insert;
 import database.koneksi;
 import java.sql.SQLException;
 public class main {

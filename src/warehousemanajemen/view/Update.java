@@ -1,4 +1,4 @@
-package com.warehousemanajemen.view;
+package warehousemanajemen.view;
 
 import java.awt.BorderLayout;
 import javax.swing.JFrame;

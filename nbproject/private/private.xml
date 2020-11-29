@@ -3,14 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Tugas/PAJ/com.WarehouseManajemen/src/com/warehousemanajemen/view/Insert.java</file>
-            <file>file:/D:/Tugas/PAJ/com.WarehouseManajemen/src/model/user.java</file>
-            <file>file:/D:/Tugas/PAJ/com.WarehouseManajemen/src/controller/contTransaksi.java</file>
-            <file>file:/D:/Tugas/PAJ/com.WarehouseManajemen/src/controller/contUser.java</file>
-            <file>file:/D:/Tugas/PAJ/com.WarehouseManajemen/src/com/warehousemanajemen/main.java</file>
-            <file>file:/D:/Tugas/PAJ/com.WarehouseManajemen/src/com/warehousemanajemen/view/Update.java</file>
-            <file>file:/D:/Tugas/PAJ/com.WarehouseManajemen/src/database/koneksi.java</file>
-            <file>file:/D:/Tugas/PAJ/com.WarehouseManajemen/src/model/transaksi.java</file>
+            <file>file:/D:/Kulia/Semester%205/Java/UTS/WarehouseManagement/src/com/warehousemanajemen/main.java</file>
+            <file>file:/D:/Kulia/Semester%205/Java/UTS/WarehouseManagement/src/controller/contTransaksi.java</file>
+            <file>file:/D:/Kulia/Semester%205/Java/UTS/WarehouseManagement/src/warehousemanajemen/view/Insert.java</file>
         </group>
     </open-files>
 </project-private>
