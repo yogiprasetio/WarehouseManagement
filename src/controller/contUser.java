@@ -18,10 +18,12 @@ import model.user;
 public class contUser {
     koneksi koneksi;
     ArrayList<user> arrUser;
-
+    String name;
+    int id;
     public contUser() {
         this.koneksi = new koneksi();
         this.arrUser = new ArrayList<>();
+        
     }
     
     public ArrayList<user> getUser() throws SQLException{
@@ -36,4 +38,20 @@ public class contUser {
         return this.arrUser;
     }
     
+    public String getname(int id) throws SQLException{
+        ResultSet rs = this.koneksi.GetData("SELECT `nama` FROM `user` WHERE `id` = " + id);
+        while(rs.next()){
+            this.name = rs.getString("nama");
+        }
+        return this.name;
+    }
+    
+    public int getId(String nama) throws SQLException{
+        System.out.println("nama : " + nama);
+        ResultSet rs = this.koneksi.GetData("SELECT `id` FROM `user` WHERE `nama` = " + nama);
+        while(rs.next()){
+            this.id = rs.getInt("id");
+        }
+        return this.id;
+    }
 }

@@ -53,7 +53,7 @@ public class contTransaksi {
             String tgl_keluar = new SimpleDateFormat("yyyy-MM-dd").format(trans.getTgl_keluar());
         }
         
-        int id = trans.getId() + 1;
+        int id = trans.getUser();
         System.out.println("sebelum format : " + trans.getTgl_masuk());
         String formated = new SimpleDateFormat("yyyy-MM-dd").format(trans.getTgl_masuk());
         System.out.println("Setelah format : " + formated);

@@ -9,7 +9,8 @@ public class main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        Insert p = new Insert();
+        new Insert().show();
+//System.out.println("Tes");
 //            koneksi con = new koneksi();
     }
     
